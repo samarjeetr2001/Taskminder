@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:todotimer/core/database/boxes/boxes.dart';
 import 'package:todotimer/core/database/models/task.dart';
 import 'package:todotimer/app/home/domain/entity/task_entity.dart';
@@ -26,15 +27,22 @@ class TaskRepositoryImpl extends TaskRepository {
   }
 
   @override
-  Future<void> updateStatus({required String id, required Status status}) {
-    // TODO: implement updateStatus
-    throw UnimplementedError();
+  Future<void> updateStatus(
+      {required String id, required Status status}) async {
+    Task? task = _taskBox.get(id);
+    if (task != null) {
+      task.status = describeEnum(status);
+      await task.save();
+    }
   }
 
   @override
   Future<void> updateTimer(
-      {required String id, required double durationInSec}) {
-    // TODO: implement updateTimer
-    throw UnimplementedError();
+      {required String id, required double durationInSec}) async {
+    Task? task = _taskBox.get(id);
+    if (task != null) {
+      task.durationInSec = durationInSec;
+      await task.save();
+    }
   }
 }

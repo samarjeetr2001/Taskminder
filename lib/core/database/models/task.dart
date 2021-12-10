@@ -7,22 +7,22 @@ part 'task.g.dart';
 @HiveType(typeId: 0)
 class Task extends HiveObject {
   @HiveField(0)
-  final String id;
+  late String id;
 
   @HiveField(1)
-  final String title;
+  late String title;
 
   @HiveField(2)
-  final String description;
+  late String description;
 
   @HiveField(3)
-  final DateTime createdDate;
+  late DateTime createdDate;
 
   @HiveField(4)
-  final String status = describeEnum(Status.TODO);
+  late String status = describeEnum(Status.TODO);
 
   @HiveField(5)
-  final double durationInSec;
+  late double durationInSec;
 
   Task({
     required this.id,

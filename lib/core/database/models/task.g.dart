@@ -22,7 +22,7 @@ class TaskAdapter extends TypeAdapter<Task> {
       description: fields[2] as String,
       createdDate: fields[3] as DateTime,
       durationInSec: fields[5] as double,
-    );
+    )..status = fields[4] as String;
   }
 
   @override

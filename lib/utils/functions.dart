@@ -10,6 +10,8 @@ Status parseStatus(String status) {
     return Status.DONE;
   } else if (describeEnum(Status.IN_PROGRESS) == status) {
     return Status.IN_PROGRESS;
+  } else if (describeEnum(Status.ON_HOLD) == status) {
+    return Status.ON_HOLD;
   }
   throw Exception("Invalid task Status");
 }

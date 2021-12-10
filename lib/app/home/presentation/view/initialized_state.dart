@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todotimer/app/home/presentation/home_controller.dart';
@@ -9,6 +8,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todotimer/app/home/domain/entity/task_entity.dart';
 import 'package:todotimer/utils/functions.dart';
+import 'package:todotimer/utils/timer.dart';
 
 class HomeInitializedView extends StatefulWidget {
   final HomeController controller;
@@ -36,7 +36,52 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                 for (var i = 0; i < tasks.length; i++)
                   ListTile(
                     title: Text(tasks[i].title),
-                    subtitle: Text(tasks[i].status.toString()),
+                    subtitle: Row(
+                      children: [
+                        Text(
+                          tasks[i].status.toString(),
+                        ),
+                        if (TaskTimer.timer[tasks[i].id] == null ||
+                            !TaskTimer.timer[tasks[i].id]!.isActive)
+                          MaterialButton(
+                            onPressed: () {
+                              TaskTimer timer = new TaskTimer(
+                                id: tasks[i].id,
+                                duration: tasks[i].durationInSec.round(),
+                              );
+                              timer.startTimer(
+                                onComplete: () {
+                                  widget.controller.updateStatus(
+                                      id: tasks[i].id, status: Status.DONE);
+                                },
+                                periodicFunction: () {
+                                  widget.controller.updateTime(
+                                      id: tasks[i].id,
+                                      durationInSec: timer.duration.toDouble());
+                                },
+                              );
+                              widget.controller.updateStatus(
+                                  id: tasks[i].id, status: Status.IN_PROGRESS);
+                            },
+                            child: Text(TaskTimer.timer[tasks[i].id] == null
+                                ? "Start"
+                                : tasks[i].durationInSec == 0
+                                    ? "Completed"
+                                    : "Resume"),
+                          ),
+                        if (TaskTimer.timer[tasks[i].id] != null)
+                          if (TaskTimer.timer[tasks[i].id]!.isActive)
+                            MaterialButton(
+                              onPressed: () {
+                                TaskTimer.timer[tasks[i].id]!.cancel();
+                                widget.controller.updateStatus(
+                                    id: tasks[i].id, status: Status.ON_HOLD);
+                                setState(() {});
+                              },
+                              child: Text("Pause"),
+                            )
+                      ],
+                    ),
                     leading: Text(tasks[i].id),
                     trailing: Text(tasks[i].durationInSec.toString()),
                   )

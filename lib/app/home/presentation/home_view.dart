@@ -26,15 +26,6 @@ class HomeViewState extends ResponsiveViewState<HomeView, HomeController> {
             return HomeInitializedView(
               controller: controller,
             );
-          case HomeInitializiedState:
-            {
-              controller.getTasks();
-              return Scaffold(
-                body: Center(
-                  child: Text("Loading ...."),
-                ),
-              );
-            }
         }
         throw Exception("Unrecognized state $currentStateType encountered");
       },
