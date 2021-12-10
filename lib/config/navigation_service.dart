@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todotimer/app/home/presentation/home_view.dart';
 import 'package:todotimer/main.dart';
 
 class NavigationService {
@@ -11,7 +12,7 @@ class NavigationService {
       case homeRoute:
         return MaterialPageRoute(
           settings: RouteSettings(name: NavigationService.homeRoute),
-          builder: (_) => MyHomePage(title: 'Flutter Demo Home Page'),
+          builder: (_) => HomeView(),
         );
       default:
         throw Exception("NavigationService: Invalid Navigation ");

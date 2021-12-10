@@ -1,1 +1,3 @@
-class DBKeys{}
+class DBKeys {
+  static const BoxNameTask = "tasks";
+}
