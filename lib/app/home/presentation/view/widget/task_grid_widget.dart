@@ -98,7 +98,8 @@ class _TaskGridWidgetState extends State<TaskGridWidget> {
                             task.status != Status.DONE
                                 ? Switch(
                                     activeColor: CoreAppTheme.primaryColor,
-                                    value: task.status == Status.IN_PROGRESS
+                                    value: task.status == Status.IN_PROGRESS &&
+                                            TaskTimer.timer[task.id] != null
                                         ? true
                                         : false,
                                     onChanged: (value) {
