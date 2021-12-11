@@ -96,8 +96,10 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                   trailing: task.status != Status.DONE
                       ? Switch(
                           activeColor: CoreAppTheme.primaryColor,
-                          value:
-                              task.status == Status.IN_PROGRESS ? true : false,
+                          value: task.status == Status.IN_PROGRESS &&
+                                  TaskTimer.timer[task.id] != null
+                              ? true
+                              : false,
                           onChanged: (value) {
                             print(value);
                             if (value) {
