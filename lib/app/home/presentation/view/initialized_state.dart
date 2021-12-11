@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todotimer/app/home/presentation/home_controller.dart';
 import 'package:todotimer/app/home/presentation/home_state_machine.dart';
+import 'package:todotimer/config/app-theme/app_theme.dart';
+import 'package:todotimer/config/app-theme/core_app_theme.dart';
+import 'package:todotimer/constants/db_keys.dart';
 import 'package:todotimer/utils/enums.dart';
 import 'package:todotimer/app/home/domain/entity/task_entity.dart';
 import 'package:todotimer/utils/functions.dart';
@@ -23,65 +26,132 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.grid_3x3))],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            for (TaskEntity task in widget.initializiedState.tasks)
-              ListTile(
-                title: Text(task.title),
-                subtitle: Row(
-                  children: [
-                    Text(
-                      describeEnum(task.status),
+      backgroundColor: CoreAppTheme.backgroundColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: CoreAppTheme.largeSize,
+                        top: CoreAppTheme.mediumSize,
+                        left: CoreAppTheme.largeSize),
+                    child: Text(
+                      "Taskminder",
+                      style: AppTheme.textStyleTitle
+                          .copyWith(fontSize: CoreAppTheme.fontSizeExtraLarge),
                     ),
-                    if (TaskTimer.timer[task.id] == null ||
-                        !TaskTimer.timer[task.id]!.isActive)
-                      MaterialButton(
-                        onPressed: () {
-                          TaskTimer timer = new TaskTimer(
-                            id: task.id,
-                            duration: task.durationInSec.round(),
-                          );
-                          timer.startTimer(
-                            onComplete: () {
-                              widget.controller.updateStatus(
-                                  id: task.id, status: Status.DONE);
-                            },
-                            periodicFunction: () {
-                              widget.controller.updateTime(
-                                  id: task.id,
-                                  durationInSec: timer.duration.toDouble());
-                            },
-                          );
-                          widget.controller.updateStatus(
-                              id: task.id, status: Status.IN_PROGRESS);
-                        },
-                        child: Text(TaskTimer.timer[task.id] == null
-                            ? "Start"
-                            : task.durationInSec == 0
-                                ? "Completed"
-                                : "Resume"),
+                  ),
+                  Expanded(child: Container()),
+                  IconButton(
+                    onPressed: () {
+                      widget.controller.sharedPreferences
+                                  .getString(DBKeys.taskListViewKey) ==
+                              describeEnum(TaskListView.LIST)
+                          ? widget.controller
+                              .changeView(taskListView: TaskListView.GRID)
+                          : widget.controller
+                              .changeView(taskListView: TaskListView.LIST);
+                    },
+                    icon: widget.controller.sharedPreferences
+                                .getString(DBKeys.taskListViewKey) ==
+                            describeEnum(TaskListView.LIST)
+                        ? Icon(Icons.grid_3x3)
+                        : Icon(Icons.list),
+                  )
+                ],
+              ),
+              for (TaskEntity task in widget.initializiedState.tasks)
+                Container(
+                  margin: EdgeInsets.all(CoreAppTheme.smallSize),
+                  padding: EdgeInsets.only(left: CoreAppTheme.smallSize),
+                  decoration: AppTheme.boxDecorationListTile.copyWith(
+                    color: task.status == Status.TODO
+                        ? CoreAppTheme.redShadeColor
+                        : task.status == Status.IN_PROGRESS
+                            ? CoreAppTheme.primaryColor
+                            : task.status == Status.DONE
+                                ? CoreAppTheme.greenShadeColor
+                                : CoreAppTheme.secondaryColor,
+                  ),
+                  child: Container(
+                    decoration:
+                        AppTheme.boxDecorationListTile.copyWith(boxShadow: []),
+                    child: ExpansionTile(
+                      children: [
+                        if (task.description != null && task.description != "")
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              task.description!,
+                              style: AppTheme.textStyleNormal.copyWith(
+                                  fontSize: CoreAppTheme.fontSizeSmall),
+                            ),
+                          )
+                      ],
+                      title: Text(
+                        task.title,
+                        style: AppTheme.textStyleTitle,
                       ),
-                    if (TaskTimer.timer[task.id] != null)
-                      if (TaskTimer.timer[task.id]!.isActive)
-                        MaterialButton(
-                          onPressed: () {
-                            TaskTimer.timer[task.id]!.cancel();
-                            widget.controller.updateStatus(
-                                id: task.id, status: Status.ON_HOLD);
-                            setState(() {});
-                          },
-                          child: Text("Pause"),
-                        )
-                  ],
-                ),
-                leading: Text(task.id),
-                trailing: Text(task.durationInSec.toString()),
-              )
-          ],
+                      subtitle: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            if (task.status == Status.IN_PROGRESS)
+                              Text(
+                                "you can do it :  ",
+                                style: AppTheme.textStyleNormal.copyWith(
+                                    fontSize: CoreAppTheme.fontSizeSmall),
+                              ),
+                            if (task.status == Status.ON_HOLD)
+                              Text(
+                                "resume your task :  ",
+                                style: AppTheme.textStyleNormal.copyWith(
+                                    fontSize: CoreAppTheme.fontSizeSmall),
+                              ),
+                            if (task.status == Status.TODO)
+                              Text(
+                                "start working on it :  ",
+                                style: AppTheme.textStyleNormal.copyWith(
+                                    fontSize: CoreAppTheme.fontSizeSmall),
+                              ),
+                            Container(
+                              child: Text(
+                                task.durationInSec == 0
+                                    ? "Completed"
+                                    : "${(task.durationInSec ~/ 60)}m ${(task.durationInSec % 60).toInt()}s",
+                                style: AppTheme.textStyleSubtitle.copyWith(
+                                    color: CoreAppTheme.primaryColor,
+                                    fontSize: CoreAppTheme.fontSizeSmall),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: task.status != Status.DONE
+                          ? Switch(
+                              activeColor: CoreAppTheme.primaryColor,
+                              value: task.status == Status.IN_PROGRESS
+                                  ? true
+                                  : false,
+                              onChanged: (value) {
+                                print(value);
+                                if (value) {
+                                  startTimer(task);
+                                } else {
+                                  stopTimer(task);
+                                }
+                              })
+                          : SizedBox(),
+                      //Text(task.durationInSec.toString()),
+                    ),
+                  ),
+                )
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -89,7 +159,31 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
           addTask(context);
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void stopTimer(TaskEntity task) {
+    TaskTimer.timer[task.id]!.cancel();
+    widget.controller.updateStatus(id: task.id, status: Status.ON_HOLD);
+    setState(() {});
+  }
+
+  void startTimer(TaskEntity task) {
+    TaskTimer timer = new TaskTimer(
+      id: task.id,
+      duration: task.durationInSec.round(),
+    );
+    timer.startTimer(
+      onComplete: () {
+        widget.controller.updateStatus(id: task.id, status: Status.DONE);
+      },
+      periodicFunction: () {
+        widget.controller
+            .updateTime(id: task.id, durationInSec: timer.duration.toDouble());
+      },
+    );
+    widget.controller.updateStatus(id: task.id, status: Status.IN_PROGRESS);
   }
 
   void addTask(BuildContext context) {
@@ -122,7 +216,7 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("New Task"),
-                          SizedBox(height: 80),
+                          SizedBox(height: 60),
                           Text('Title'),
                           TextFormField(
                             controller: titleTextController,
@@ -130,6 +224,8 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                           Text('Description'),
                           TextFormField(
                             controller: descriptionTextController,
+                            minLines: 3,
+                            maxLines: 5,
                           ),
                           Text('Duration'),
                           Row(

@@ -1,3 +1,4 @@
 class DBKeys {
-  static const BoxNameTask = "tasks";
+  static const boxNameTask = "tasks";
+  static const taskListViewKey = "taskListView";
 }

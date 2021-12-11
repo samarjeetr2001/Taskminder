@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todotimer/config/navigation_service.dart';
+import 'package:todotimer/constants/db_keys.dart';
 import 'package:todotimer/core/injection_container.dart';
 import 'package:todotimer/core/observer.dart';
 import 'package:todotimer/app/home/domain/entity/task_entity.dart';
@@ -11,6 +14,8 @@ class HomeController extends Controller {
   final HomePresenter _presenter;
   final HomeStateMachine _stateMachine;
   final NavigationService _navigationService;
+  late SharedPreferences sharedPreferences;
+
   HomeController()
       : _presenter = serviceLocator<HomePresenter>(),
         _stateMachine = new HomeStateMachine(),
@@ -35,7 +40,8 @@ class HomeController extends Controller {
     return _stateMachine.getCurrentState();
   }
 
-  void getTaks() {
+  void getTaks() async {
+    sharedPreferences = await SharedPreferences.getInstance();
     _presenter.getTasks(
       new UseCaseObserver(() {}, (error) {
         print("HomeController : getTaks : $error");
@@ -43,7 +49,7 @@ class HomeController extends Controller {
         refreshUI();
       }, onNextFunc: (List<TaskEntity> tasks) {
         tasks.sort((a, b) => (b.createdDate.compareTo(a.createdDate)));
-        
+
         _stateMachine.onEvent(new HomeInitializiedEvent(tasks: tasks));
         refreshUI();
       }),
@@ -83,5 +89,11 @@ class HomeController extends Controller {
           },
         ),
         task: task);
+  }
+
+  void changeView({required TaskListView taskListView}) async {
+    await sharedPreferences.setString(
+        DBKeys.taskListViewKey, describeEnum(taskListView));
+    refreshUI();
   }
 }

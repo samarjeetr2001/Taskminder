@@ -16,6 +16,14 @@ Status parseStatus(String status) {
   throw Exception("Invalid task Status");
 }
 
+TaskListView pasrseTaskListView(String taskListView) {
+  if (describeEnum(TaskListView.GRID) == taskListView)
+    return TaskListView.GRID;
+  else if (describeEnum(TaskListView.LIST) == taskListView)
+    return TaskListView.LIST;
+  throw Exception("Invalid TaskListView");
+}
+
 var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
 String getRandomString(int length) => String.fromCharCodes(Iterable.generate(

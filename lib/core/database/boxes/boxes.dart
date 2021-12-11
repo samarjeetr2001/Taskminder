@@ -5,9 +5,9 @@ import 'package:todotimer/core/database/models/task.dart';
 class Boxes {
   Future<void> openBoxes() async {
     Hive.registerAdapter(TaskAdapter());
-    await Hive.openBox<Task>(DBKeys.BoxNameTask);
+    await Hive.openBox<Task>(DBKeys.boxNameTask);
     return;
   }
 
-  static Box<Task> getTaskBox() => Hive.box<Task>(DBKeys.BoxNameTask);
+  static Box<Task> getTaskBox() => Hive.box<Task>(DBKeys.boxNameTask);
 }
