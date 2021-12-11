@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todotimer/app/home/domain/usecase/get_tasks_usecase.dart';
 import 'package:todotimer/app/home/domain/usecase/update_task_status_usecase.dart';
 import 'package:todotimer/app/home/domain/usecase/update_task_timer_usecase.dart';

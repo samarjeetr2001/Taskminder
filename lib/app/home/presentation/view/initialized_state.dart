@@ -111,7 +111,7 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
     final TextEditingController descriptionTextController =
         new TextEditingController();
     final TextEditingController durationTextController =
-        new TextEditingController();
+        new TextEditingController(text: "10");
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
