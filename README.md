@@ -1,8 +1,5 @@
 # Taskminder
 
-# Splash Screen
-![1d57f6d0-462e-4961-9e2a-767579f21508](https://user-images.githubusercontent.com/61595281/145688570-3cd49022-8d53-487e-8d44-2a39084d6207.jpg)
-
 # Empty State
 ![656e004a-eb25-49cb-a060-661b1162d522](https://user-images.githubusercontent.com/61595281/145688577-c78328aa-80a9-4f9c-a62a-88096f12fe31.jpg)
 
@@ -18,3 +15,6 @@
 ![541e3b82-fbbb-4c8b-af9a-e19f40f08480](https://user-images.githubusercontent.com/61595281/145688606-0b0d3e1d-6e7d-45a0-ac9b-ac8dfacef453.jpg)
 
 ![c4182618-c614-43b2-9003-53ecce1346ca](https://user-images.githubusercontent.com/61595281/145688598-52b23be3-193f-4593-b63b-95649f7502d8.jpg)
+
+# Splash Screen
+![1d57f6d0-462e-4961-9e2a-767579f21508](https://user-images.githubusercontent.com/61595281/145688570-3cd49022-8d53-487e-8d44-2a39084d6207.jpg)
