@@ -1,4 +1,5 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:todotimer/app/home/domain/usecase/get_tasks_usecase.dart';
 import 'package:todotimer/app/home/domain/usecase/update_task_status_usecase.dart';
 import 'package:todotimer/app/home/domain/usecase/update_task_timer_usecase.dart';
 import 'package:todotimer/core/observer.dart';
@@ -10,15 +11,17 @@ class HomePresenter extends Presenter {
   final CreateTaskUsecase _createTaskUsecase;
   final UpdateTaskTimerUsecase _updateTaskTimerUsecase;
   final UpdateTaskStatusUsecase _updateTaskStatusUsecase;
+  final GetTasksUsecase _getTasksUsecase;
 
   HomePresenter(this._createTaskUsecase, this._updateTaskTimerUsecase,
-      this._updateTaskStatusUsecase);
+      this._updateTaskStatusUsecase, this._getTasksUsecase);
 
   @override
   dispose() {
     _createTaskUsecase.dispose();
     _updateTaskTimerUsecase.dispose();
     _updateTaskTimerUsecase.dispose();
+    _getTasksUsecase.dispose();
   }
 
   void createTask(UseCaseObserver observer, {required TaskEntity task}) {
@@ -39,5 +42,9 @@ class HomePresenter extends Presenter {
       observer,
       new UpdateTaskStatusUsecaseParams(id: id, status: status),
     );
+  }
+
+  void getTasks(UseCaseObserver observer) {
+    _getTasksUsecase.execute(observer);
   }
 }

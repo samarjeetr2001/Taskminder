@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:todotimer/core/database/models/task.dart';
 import 'package:todotimer/utils/enums.dart';
-import 'package:todotimer/utils/functions.dart';
 
 class TaskEntity {
   final String id;
@@ -20,14 +18,4 @@ class TaskEntity {
     required this.durationInSec,
   });
 
-  static rowToEntity(Task task) {
-    return new TaskEntity(
-      id: task.id,
-      title: task.title,
-      description: task.description,
-      createdDate: task.createdDate,
-      status: parseStatus(task.status),
-      durationInSec: task.durationInSec,
-    );
-  }
 }

@@ -23,8 +23,19 @@ class HomeViewState extends ResponsiveViewState<HomeView, HomeController> {
         final currentStateType = controller.getCurrentState().runtimeType;
         switch (currentStateType) {
           case HomeInitializationState:
+            {
+              controller.getTaks();
+              return Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          case HomeInitializiedState:
             return HomeInitializedView(
               controller: controller,
+              initializiedState:
+                  controller.getCurrentState() as HomeInitializiedState,
             );
         }
         throw Exception("Unrecognized state $currentStateType encountered");

@@ -35,10 +35,27 @@ class HomeController extends Controller {
     return _stateMachine.getCurrentState();
   }
 
+  void getTaks() {
+    _presenter.getTasks(
+      new UseCaseObserver(() {}, (error) {
+        print("HomeController : getTaks : $error");
+        _stateMachine.onEvent(new HomeErrorEvent());
+        refreshUI();
+      }, onNextFunc: (List<TaskEntity> tasks) {
+        tasks.sort((a, b) => (b.createdDate.compareTo(a.createdDate)));
+        
+        _stateMachine.onEvent(new HomeInitializiedEvent(tasks: tasks));
+        refreshUI();
+      }),
+    );
+  }
+
   void updateTime({required String id, required double durationInSec}) {
     _presenter.updateTaskTimer(
         new UseCaseObserver(() {}, (error) {
-          //TODO: Error event
+          print("HomeController : updateTime : $error");
+          _stateMachine.onEvent(new HomeErrorEvent());
+          refreshUI();
         }),
         id: id,
         durationInSec: durationInSec);
@@ -47,12 +64,13 @@ class HomeController extends Controller {
   void updateStatus({required String id, required Status status}) {
     _presenter.updateTaskStatus(
         new UseCaseObserver(() {}, (error) {
-          //TODO: Error event
+          print("HomeController : updateStatus : $error");
+          _stateMachine.onEvent(new HomeErrorEvent());
+          refreshUI();
         }),
         id: id,
         status: status);
   }
-
 
   void createTask({required TaskEntity task}) {
     _presenter.createTask(
@@ -60,7 +78,8 @@ class HomeController extends Controller {
           () {},
           (error) {
             print("HomeController : createTask : $error");
-            //TODO: Error event
+            _stateMachine.onEvent(new HomeErrorEvent());
+            refreshUI();
           },
         ),
         task: task);
