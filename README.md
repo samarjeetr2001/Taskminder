@@ -1,4 +1,4 @@
-## Taskminder
+# Taskminder
 
 # Splash Screen
 ![1d57f6d0-462e-4961-9e2a-767579f21508](https://user-images.githubusercontent.com/61595281/145688570-3cd49022-8d53-487e-8d44-2a39084d6207.jpg)
