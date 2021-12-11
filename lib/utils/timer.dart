@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_beep/flutter_beep.dart';
+
 class TaskTimer {
   static Map<String, Timer> timer = {};
   int duration;
@@ -16,6 +18,7 @@ class TaskTimer {
       (Timer timer) {
         if (duration == 0) {
           timer.cancel();
+          FlutterBeep.playSysSound(AndroidSoundIDs.TONE_CDMA_ABBR_ALERT);
           onComplete();
         } else {
           duration--;

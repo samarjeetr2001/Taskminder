@@ -4,6 +4,8 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:todotimer/app/home/presentation/home_controller.dart';
 import 'package:todotimer/app/home/presentation/home_state_machine.dart';
 import 'package:todotimer/app/home/presentation/view/initialized_state.dart';
+import 'package:todotimer/widgets/error_view.dart';
+import 'package:todotimer/widgets/loading_view.dart';
 
 class HomeView extends View {
   @override
@@ -23,14 +25,12 @@ class HomeViewState extends ResponsiveViewState<HomeView, HomeController> {
         final currentStateType = controller.getCurrentState().runtimeType;
         switch (currentStateType) {
           case HomeInitializationState:
-            {
-              controller.getTaks();
-              return Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
+            controller.getTaks();
+            return LoadingState();
+
+          case HomeErrorState:
+            return ErrorState();
+
           case HomeInitializiedState:
             return HomeInitializedView(
               controller: controller,

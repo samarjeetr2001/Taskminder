@@ -20,7 +20,6 @@ class AppTheme {
     fontWeight: FontWeight.w600,
   );
 
-
   static final BoxDecoration boxDecorationListTile = BoxDecoration(
     color: Colors.grey.shade100,
     borderRadius: BorderRadius.all(Radius.circular(CoreAppTheme.smallSize)),
@@ -33,4 +32,8 @@ class AppTheme {
       )
     ],
   );
+
+  static final BoxDecoration boxDecorationNormal = BoxDecoration(
+      border: Border.all(color: CoreAppTheme.primaryColor),
+      borderRadius: BorderRadius.all(Radius.circular(5)));
 }

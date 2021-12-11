@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todotimer/config/app-theme/core_app_theme.dart';
 import 'package:todotimer/config/navigation_service.dart';
 import 'package:todotimer/constants/db_keys.dart';
 import 'package:todotimer/core/database/boxes/boxes.dart';
@@ -37,7 +38,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xffF9B433),
+      body: Center(
+        child: Container(
+            height: 300,
+            width: 300,
+            child: Image.asset("assets/images/splash-screen.jpg")),
+      ),
     );
   }
 }

@@ -121,7 +121,8 @@ class _TaskGridWidgetState extends State<TaskGridWidget> {
       ],
     );
   }
-   void stopTimer(TaskEntity task) {
+
+  void stopTimer(TaskEntity task) {
     TaskTimer.timer[task.id]!.cancel();
     widget.controller.updateStatus(id: task.id, status: Status.ON_HOLD);
     setState(() {});
@@ -143,5 +144,4 @@ class _TaskGridWidgetState extends State<TaskGridWidget> {
     );
     widget.controller.updateStatus(id: task.id, status: Status.IN_PROGRESS);
   }
-
 }
