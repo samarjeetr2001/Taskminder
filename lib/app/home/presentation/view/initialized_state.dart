@@ -37,22 +37,18 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                     Text(
                       describeEnum(task.status),
                     ),
-                    if (TaskTimer.timer[task.id] ==
-                            null ||
-                        !TaskTimer.timer[task.id]!
-                            .isActive)
+                    if (TaskTimer.timer[task.id] == null ||
+                        !TaskTimer.timer[task.id]!.isActive)
                       MaterialButton(
                         onPressed: () {
                           TaskTimer timer = new TaskTimer(
                             id: task.id,
-                            duration: task.durationInSec
-                                .round(),
+                            duration: task.durationInSec.round(),
                           );
                           timer.startTimer(
                             onComplete: () {
                               widget.controller.updateStatus(
-                                  id: task.id,
-                                  status: Status.DONE);
+                                  id: task.id, status: Status.DONE);
                             },
                             periodicFunction: () {
                               widget.controller.updateTime(
@@ -61,30 +57,21 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                             },
                           );
                           widget.controller.updateStatus(
-                              id: task.id,
-                              status: Status.IN_PROGRESS);
+                              id: task.id, status: Status.IN_PROGRESS);
                         },
-                        child: Text(TaskTimer.timer[
-                                    task.id] ==
-                                null
+                        child: Text(TaskTimer.timer[task.id] == null
                             ? "Start"
-                            : task.durationInSec ==
-                                    0
+                            : task.durationInSec == 0
                                 ? "Completed"
                                 : "Resume"),
                       ),
-                    if (TaskTimer.timer[task.id] !=
-                        null)
-                      if (TaskTimer.timer[task.id]!
-                          .isActive)
+                    if (TaskTimer.timer[task.id] != null)
+                      if (TaskTimer.timer[task.id]!.isActive)
                         MaterialButton(
                           onPressed: () {
-                            TaskTimer
-                                .timer[task.id]!
-                                .cancel();
+                            TaskTimer.timer[task.id]!.cancel();
                             widget.controller.updateStatus(
-                                id: task.id,
-                                status: Status.ON_HOLD);
+                                id: task.id, status: Status.ON_HOLD);
                             setState(() {});
                           },
                           child: Text("Pause"),
@@ -92,8 +79,7 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                   ],
                 ),
                 leading: Text(task.id),
-                trailing: Text(
-                    task.durationInSec.toString()),
+                trailing: Text(task.durationInSec.toString()),
               )
           ],
         ),
@@ -175,6 +161,39 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                           MaterialButton(
                             color: Colors.blue,
                             onPressed: () {
+                              if (durationTextController.text.isNotEmpty) {
+                                if (dropdownValue == 0) {
+                                  if (double.parse(
+                                              durationTextController.text) <
+                                          1 ||
+                                      double.parse(
+                                              durationTextController.text) >
+                                          10) {
+                                    Fluttertoast.showToast(
+                                      msg:
+                                          "   Invalid Duration!  Valid range is 1 to 10 minutes ",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                    return;
+                                  }
+                                } else {
+                                  if (double.parse(
+                                              durationTextController.text) <
+                                          1 ||
+                                      double.parse(
+                                              durationTextController.text) >
+                                          10 * 60) {
+                                    Fluttertoast.showToast(
+                                      msg:
+                                          " Invalid Duration!  Valid range is 1 to 600 seconds ",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                    );
+                                    return;
+                                  }
+                                }
+                              }
                               if (titleTextController.text.isNotEmpty &&
                                   durationTextController.text.isNotEmpty) {
                                 widget.controller.createTask(
@@ -198,9 +217,9 @@ class _HomeInitializedViewState extends State<HomeInitializedView> {
                               } else {
                                 Fluttertoast.showToast(
                                   msg:
-                                      "     Title & Duration fields are compulsory     ",
+                                      "  Title and Duration fields are compulsory  ",
                                   toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
+                                  gravity: ToastGravity.BOTTOM,
                                 );
                               }
                             },
