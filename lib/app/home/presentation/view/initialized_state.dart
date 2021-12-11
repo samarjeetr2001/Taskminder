@@ -12,7 +12,6 @@ import 'package:todotimer/constants/db_keys.dart';
 import 'package:todotimer/utils/enums.dart';
 import 'package:todotimer/app/home/domain/entity/task_entity.dart';
 import 'package:todotimer/utils/functions.dart';
-import 'dart:math';
 
 class HomeInitializedView extends StatefulWidget {
   final HomeController controller;

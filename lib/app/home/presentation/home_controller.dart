@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todotimer/config/navigation_service.dart';
 import 'package:todotimer/constants/db_keys.dart';
 import 'package:todotimer/core/injection_container.dart';
 import 'package:todotimer/core/observer.dart';
@@ -13,13 +12,13 @@ import 'package:todotimer/utils/enums.dart';
 class HomeController extends Controller {
   final HomePresenter _presenter;
   final HomeStateMachine _stateMachine;
-  final NavigationService _navigationService;
+  // final NavigationService _navigationService;
   late SharedPreferences sharedPreferences;
 
   HomeController()
       : _presenter = serviceLocator<HomePresenter>(),
         _stateMachine = new HomeStateMachine(),
-        _navigationService = serviceLocator<NavigationService>(),
+        // _navigationService = serviceLocator<NavigationService>(),
         super();
 
   @override

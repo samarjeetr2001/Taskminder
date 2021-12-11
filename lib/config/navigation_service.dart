@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todotimer/app/home/presentation/home_view.dart';
-import 'package:todotimer/main.dart';
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
