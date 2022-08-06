@@ -3,8 +3,8 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 import 'package:todotimer/app/home/presentation/home_controller.dart';
 import 'package:todotimer/app/home/presentation/home_state_machine.dart';
-import 'package:todotimer/app/home/presentation/view/initialized_state.dart';
 import 'package:todotimer/widgets/error_view.dart';
+import 'package:todotimer/app/home/presentation/view/widget/new_design/my_home.dart';
 import 'package:todotimer/widgets/loading_view.dart';
 
 class HomeView extends View {
@@ -32,7 +32,7 @@ class HomeViewState extends ResponsiveViewState<HomeView, HomeController> {
             return ErrorState();
 
           case HomeInitializiedState:
-            return HomeInitializedView(
+            return MyHome(
               controller: controller,
               initializiedState:
                   controller.getCurrentState() as HomeInitializiedState,

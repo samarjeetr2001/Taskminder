@@ -36,6 +36,8 @@ dependencies:
   shared_preferences: ^2.0.5
   flutter_staggered_grid_view: ^0.4.1
   flutter_beep: ^1.0.0
+  sleek_circular_slider: ^2.0.1
+  lottie: ^1.4.1
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,7 @@ flutter:
   assets:
     - assets/images/error.png
     - assets/images/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

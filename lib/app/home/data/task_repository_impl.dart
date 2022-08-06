@@ -12,7 +12,7 @@ import 'package:todotimer/utils/functions.dart';
 
 class TaskRepositoryImpl extends TaskRepository {
   final Box<Task> _taskBox = Boxes.getTaskBox();
-  final StreamController<List<TaskEntity>> tasksStream = new StreamController();
+  StreamController<List<TaskEntity>> tasksStream = new StreamController();
 
   @override
   Future<void> createTask({required TaskEntity task}) async {
@@ -53,13 +53,14 @@ class TaskRepositoryImpl extends TaskRepository {
 
   @override
   Future<Stream<List<TaskEntity>>> getTasks() async {
+    tasksStream = new StreamController();
     try {
       List<TaskEntity> tasks = getAllTasks();
       tasksStream.add(tasks);
     } catch (error) {
       tasksStream.addError(error);
     }
-    return tasksStream.stream;
+    return tasksStream.stream.asBroadcastStream();
   }
 
   List<TaskEntity> getAllTasks() {
