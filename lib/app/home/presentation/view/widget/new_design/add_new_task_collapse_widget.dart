@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todotimer/config/app-theme/app_theme.dart';
 import 'package:todotimer/config/app-theme/core_app_theme.dart';
 
-Widget addNewTaskCollapseWidget(String title) {
+Widget addNewTaskCollapseWidget() {
   return Padding(
     padding: const EdgeInsets.only(left: CoreAppTheme.largeSize),
     child: Column(
@@ -21,7 +21,9 @@ Widget addNewTaskCollapseWidget(String title) {
           ),
         ),
         Container(
-          child: Text(title, style: AppTheme.textStyleNormal),
+          child: Text('Select duration to add new task',
+              style: AppTheme.textStyleNormal
+                  .copyWith(fontSize: CoreAppTheme.fontSizeSmall)),
         ),
       ],
     ),

@@ -3,25 +3,23 @@ import 'package:todotimer/config/app-theme/app_theme.dart';
 
 import '../config/app-theme/core_app_theme.dart';
 
-
-
 class ExpandCollapseWidget extends StatefulWidget {
   ExpandCollapseWidget({
     Key? key,
     required this.expandedChild,
-    required this.collapsedChild,
+    this.collapsedChild,
     required this.buttonText,
     required this.onTap,
     required this.expandedHeight,
-    required this.collapsedHeight,
+    this.collapsedHeight,
     this.disabled = false,
   }) : super(key: key);
   final Widget expandedChild;
-  final Widget collapsedChild;
+  final Widget? collapsedChild;
   final String buttonText;
   final Function() onTap;
   final double expandedHeight;
-  final double collapsedHeight;
+  final double? collapsedHeight;
   final bool disabled;
 
   @override
@@ -53,7 +51,8 @@ class _ExpandCollapseWidgetState extends State<ExpandCollapseWidget> {
                 });
               },
               child: _collapsedWidget(
-                  child: widget.collapsedChild, height: widget.collapsedHeight),
+                  child: widget.collapsedChild ?? Container(),
+                  height: widget.collapsedHeight ?? 0),
             ),
     );
   }

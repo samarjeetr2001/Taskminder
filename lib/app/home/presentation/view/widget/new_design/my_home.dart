@@ -104,15 +104,12 @@ class _MyHomeState extends State<MyHome> {
                               );
                             }
                           },
-                          collapsedChild: addNewTaskCollapseWidget(
-                              titleTextController.text),
-                          collapsedHeight: collapasedHeight,
                         ),
                       );
                       setState(() {});
                     },
                     collapsedChild:
-                        addNewTaskCollapseWidget(titleTextController.text),
+                        addNewTaskCollapseWidget(),
                     collapsedHeight: collapasedHeight,
                   ),
                 );
